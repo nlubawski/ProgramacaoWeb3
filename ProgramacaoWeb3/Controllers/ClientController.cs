@@ -31,13 +31,13 @@ namespace ProgramacaoWeb3.Controllers
         }
 
         [HttpGet]
-        public IActionResult ReadClient()
+        public ActionResult<List<Client>> ReadClient()
         {
             return Ok(clients);
         }
 
         [HttpGet("{cpf}")]
-        public IActionResult DetailsAirplaneId(string cpf)
+        public ActionResult<Client> DetailsAirplaneId(string cpf)
         {
             var client = clientList.Find(client => client.Cpf == cpf);
             if (client != null)
@@ -49,8 +49,12 @@ namespace ProgramacaoWeb3.Controllers
 
 
         [HttpPost]
-        public IActionResult InsertClient(Client client)
+        public ActionResult<Client> InsertClient(Client client)
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             clients.Add(client);
             return CreatedAtAction(nameof(UpdateClient), new { cpf = client.Cpf }, client);
 
@@ -64,10 +68,10 @@ namespace ProgramacaoWeb3.Controllers
             {
                 return BadRequest("cpf não encontrado");
             }
+            
             var index = clientList.IndexOf(client);
             clientList[index] = clientUpdate;
-            return Ok(client);
-            
+            return NoContent();
         }
 
         [HttpDelete]
@@ -80,6 +84,5 @@ namespace ProgramacaoWeb3.Controllers
             }
             return NoContent();
         }
-
     }
 }

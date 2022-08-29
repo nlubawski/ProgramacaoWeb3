@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace ProgramacaoWeb3
 {
     public class Client
@@ -14,10 +16,14 @@ namespace ProgramacaoWeb3
             Age = CalculateAge(BirthDate);
         }
 
+        [Required(ErrorMessage = "Cpf é obrigatório")]
+        [MaxLength(11, ErrorMessage = "Deve conter no máximo 11 digitos")]
         public string Cpf { get; set; }
 
+        [Required(ErrorMessage = "Cpf é obrigatório")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Cpf é obrigatório")]
         public DateTime BirthDate { get; set; }
 
         public int Age { get; set; }
