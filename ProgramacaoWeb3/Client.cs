@@ -14,7 +14,6 @@ namespace ProgramacaoWeb3
             Age = CalculateAge(BirthDate);
         }
 
-        //Neste cadastro, o cliente deve possuir cpf, nome, data de nascimento e idade.
         public string Cpf { get; set; }
 
         public string Name { get; set; }

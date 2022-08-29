@@ -18,7 +18,6 @@ namespace ProgramacaoWeb3.Controllers
         private readonly ILogger<ClientController> _logger; 
         private List<Client> clients { get; set; }
 
-
         public ClientController(ILogger<ClientController> logger)
         {
             _logger = logger;
@@ -31,34 +30,55 @@ namespace ProgramacaoWeb3.Controllers
             }).ToList();
         }
 
-        //https://localhost:7185/Client
         [HttpGet]
-        public List<Client> Get(int index)
+        public IActionResult ReadClient()
         {
-            return clients;
+            return Ok(clients);
         }
+
+        [HttpGet("{cpf}")]
+        public IActionResult DetailsAirplaneId(string cpf)
+        {
+            var client = clientList.Find(client => client.Cpf == cpf);
+            if (client != null)
+            {
+                return Ok(client);
+            }
+            return NotFound();
+        }
+
 
         [HttpPost]
-        public Client Insert(Client client)
+        public IActionResult InsertClient(Client client)
         {
             clients.Add(client);
-            return client;
+            return CreatedAtAction(nameof(UpdateClient), new { cpf = client.Cpf }, client);
 
         }
 
-        [HttpPut]
-        public Client Update(int index, Client tempo)
+        [HttpPut("{cpf}")]
+        public IActionResult UpdateClient(string cpf, Client clientUpdate)
         {
-            clients[index] = tempo;
-            return clients[index];
+            var client = clientList.Find(client => client.Cpf == cpf);
+            if (client == null)
+            {
+                return BadRequest("cpf não encontrado");
+            }
+            var index = clientList.IndexOf(client);
+            clientList[index] = clientUpdate;
+            return Ok(client);
+            
         }
 
         [HttpDelete]
-        public List<Client> Deletar(int index) //o certo é nao retornar nada
+        public IActionResult DeleteClient(string cpf)
         {
-            clients.RemoveAt(index);
-            return clients; 
-
+            var client = clientList.Find(client => client.Cpf == cpf);
+            if(client != null)
+            {
+                clientList.Remove(client);
+            }
+            return NoContent();
         }
 
     }
