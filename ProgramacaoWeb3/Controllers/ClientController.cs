@@ -30,14 +30,15 @@ namespace ProgramacaoWeb3.Controllers
             }).ToList();
         }
 
-        [HttpGet]
-        public ActionResult<List<Client>> ReadClient()
+
+        [HttpGet("/clientes")]
+        public ActionResult<List<Client>> ReadClient([FromQuery] int index, int index2)
         {
             return Ok(clients);
         }
 
-        [HttpGet("{cpf}")]
-        public ActionResult<Client> DetailsAirplaneId(string cpf)
+        [HttpGet("/cliente/{cpf}/detalhes")] 
+        public ActionResult<Client> DetailsClientId(string cpf)
         {
             var client = clientList.Find(client => client.Cpf == cpf);
             if (client != null)
@@ -56,7 +57,7 @@ namespace ProgramacaoWeb3.Controllers
                 return BadRequest();
             }
             clients.Add(client);
-            return CreatedAtAction(nameof(UpdateClient), new { cpf = client.Cpf }, client);
+            return CreatedAtAction(nameof(DetailsClientId), client);
 
         }
 
