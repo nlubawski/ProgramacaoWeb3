@@ -4,6 +4,8 @@ namespace ProgramacaoWeb3.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Consumes("application/json")]
+    [Produces("application/json")]
     public class ClientController : ControllerBase
     {
         private static List<Client> clientList = new List<Client>()
@@ -32,11 +34,14 @@ namespace ProgramacaoWeb3.Controllers
 
 
         [HttpGet("/clientes")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<List<Client>> ReadClient([FromQuery] int index, int index2)
         {
             return Ok(clients);
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("/cliente/{cpf}/detalhes")] 
         public ActionResult<Client> DetailsClientId(string cpf)
         {
@@ -49,19 +54,18 @@ namespace ProgramacaoWeb3.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("/cliente/cadastrar ")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<Client> InsertClient(Client client)
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
             clients.Add(client);
             return CreatedAtAction(nameof(DetailsClientId), client);
-
         }
 
         [HttpPut("{cpf}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult UpdateClient(string cpf, Client clientUpdate)
         {
             var client = clientList.Find(client => client.Cpf == cpf);
@@ -75,6 +79,7 @@ namespace ProgramacaoWeb3.Controllers
             return NoContent();
         }
 
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [HttpDelete]
         public IActionResult DeleteClient(string cpf)
         {

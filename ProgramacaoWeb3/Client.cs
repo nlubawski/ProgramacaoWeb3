@@ -20,10 +20,10 @@ namespace ProgramacaoWeb3
         [MaxLength(11, ErrorMessage = "Deve conter no máximo 11 digitos")]
         public string Cpf { get; set; }
 
-        [Required(ErrorMessage = "Cpf é obrigatório")]
+        [Required(ErrorMessage = "Nome é obrigatório")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Cpf é obrigatório")]
+        [Required(ErrorMessage = "Data de nascimento é obrigatória")]
         public DateTime BirthDate { get; set; }
 
         public int Age { get; set; }
