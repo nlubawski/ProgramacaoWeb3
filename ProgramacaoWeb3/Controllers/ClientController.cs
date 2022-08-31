@@ -8,30 +8,20 @@ namespace ProgramacaoWeb3.Controllers
     [Produces("application/json")]
     public class ClientController : ControllerBase
     {
-        private static List<Client> clientList = new List<Client>()
-        { 
-            new Client("teste1","99999999999", Convert.ToDateTime("2002/04/04")),
-            new Client("teste2","88888888888", Convert.ToDateTime("1990/02/12")),
-            new Client("teste3","77777777777", Convert.ToDateTime("2010/08/03")),
-            new Client("teste4","66666666666", Convert.ToDateTime("2015/06/07")),
-            new Client("teste5","55555555555", Convert.ToDateTime("1998/02/01")),
-        };
+        string[] names = new[] { "teste1", "teste2", "teste3", "teste4", "teste5" };
 
         private readonly ILogger<ClientController> _logger; 
         private List<Client> clients { get; set; }
 
         public ClientController(ILogger<ClientController> logger)
         {
-            _logger = logger;
-            clients = clientList.Select(client => new Client
+            clients = Enumerable.Range(1, 5).Select(index => new Client
             {
-                BirthDate = client.BirthDate,
-                Name = client.Name,
-                Cpf = client.Cpf,
-                Age = client.Age,
+                Cpf = String.Concat(Enumerable.Repeat(index + 1, 9)),
+                Name = names[index - 1],
+                BirthDate = DateTime.Now.AddYears(-(index * 10))
             }).ToList();
         }
-
 
         [HttpGet("/clientes")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -45,7 +35,7 @@ namespace ProgramacaoWeb3.Controllers
         [HttpGet("/cliente/{cpf}/detalhes")] 
         public ActionResult<Client> DetailsClientId(string cpf)
         {
-            var client = clientList.Find(client => client.Cpf == cpf);
+            var client = clients.Find(client => client.Cpf == cpf);
             if (client != null)
             {
                 return Ok(client);
@@ -54,13 +44,26 @@ namespace ProgramacaoWeb3.Controllers
         }
 
 
-        [HttpPost("/cliente/cadastrar ")]
+        //[HttpPost("/cliente/cadastrar ")]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //public ActionResult<Client> InsertClient(Client client)
+        //{
+        //    if (client == null)
+        //    {
+        //        return BadRequest("cliente não cadastrado");
+        //    }
+        //    clients.Add(client);
+        //    return CreatedAtAction(nameof(DetailsClientId), client);
+        //}
+
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<Client> InsertClient(Client client)
+        public ActionResult<Client> Create(Client client)
         {
             clients.Add(client);
-            return CreatedAtAction(nameof(DetailsClientId), client);
+            return CreatedAtAction(nameof(Create), client);
         }
 
         [HttpPut("{cpf}")]
@@ -68,14 +71,14 @@ namespace ProgramacaoWeb3.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult UpdateClient(string cpf, Client clientUpdate)
         {
-            var client = clientList.Find(client => client.Cpf == cpf);
+            var client = clients.Find(client => client.Cpf == cpf);
             if (client == null)
             {
                 return BadRequest("cpf não encontrado");
             }
             
-            var index = clientList.IndexOf(client);
-            clientList[index] = clientUpdate;
+            var index = clients.IndexOf(client);
+            clients[index] = clientUpdate;
             return NoContent();
         }
 
@@ -83,10 +86,10 @@ namespace ProgramacaoWeb3.Controllers
         [HttpDelete]
         public IActionResult DeleteClient(string cpf)
         {
-            var client = clientList.Find(client => client.Cpf == cpf);
+            var client = clients.Find(client => client.Cpf == cpf);
             if(client != null)
             {
-                clientList.Remove(client);
+                clients.Remove(client);
             }
             return NoContent();
         }
