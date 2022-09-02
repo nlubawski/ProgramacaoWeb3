@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using ProgramacaoWeb3.Repository;
 
 namespace ProgramacaoWeb3.Controllers
 {
@@ -8,90 +9,71 @@ namespace ProgramacaoWeb3.Controllers
     [Produces("application/json")]
     public class ClientController : ControllerBase
     {
-        string[] names = new[] { "teste1", "teste2", "teste3", "teste4", "teste5" };
+        public List<Client> ClientList { get; set; }
+        private readonly IConfiguration _configuration;
 
-        private readonly ILogger<ClientController> _logger; 
-        private List<Client> clients { get; set; }
+        public ClientRepository _clientRepository;
 
-        public ClientController(ILogger<ClientController> logger)
+        public ClientController(IConfiguration configuration)
         {
-            clients = Enumerable.Range(1, 5).Select(index => new Client
-            {
-                Cpf = String.Concat(Enumerable.Repeat(index + 1, 9)),
-                Name = names[index - 1],
-                BirthDate = DateTime.Now.AddYears(-(index * 10))
-            }).ToList();
+            ClientList = new List<Client>();
+            _clientRepository = new ClientRepository(configuration);
         }
 
         [HttpGet("/clientes")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<List<Client>> ReadClient([FromQuery] int index, int index2)
         {
-            return Ok(clients);
+            return Ok(_clientRepository.GetCliente());
         }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpGet("/cliente/{cpf}/detalhes")] 
-        public ActionResult<Client> DetailsClientId(string cpf)
-        {
-            var client = clients.Find(client => client.Cpf == cpf);
-            if (client != null)
-            {
-                return Ok(client);
-            }
-            return NotFound();
-        }
-
-
-        //[HttpPost("/cliente/cadastrar ")]
-        //[ProducesResponseType(StatusCodes.Status201Created)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //public ActionResult<Client> InsertClient(Client client)
-        //{
-        //    if (client == null)
-        //    {
-        //        return BadRequest("cliente não cadastrado");
-        //    }
-        //    clients.Add(client);
-        //    return CreatedAtAction(nameof(DetailsClientId), client);
-        //}
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<Client> Create(Client client)
         {
-            clients.Add(client);
+            if(!_clientRepository.InsertClient(client))
+            {
+                return BadRequest();
+            }
+
             return CreatedAtAction(nameof(Create), client);
         }
 
-        [HttpPut("{cpf}")]
+        [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult UpdateClient(string cpf, Client clientUpdate)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult UpdateClient(long id, Client client)
         {
-            var client = clients.Find(client => client.Cpf == cpf);
-            if (client == null)
-            {
-                return BadRequest("cpf não encontrado");
-            }
-            
-            var index = clients.IndexOf(client);
-            clients[index] = clientUpdate;
-            return NoContent();
+            var clients = ClientList;
+            if (clients == null)
+                return NotFound();
+
+            _clientRepository.UpdateClient(id, client);
+           return NoContent();
         }
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [HttpDelete]
-        public IActionResult DeleteClient(string cpf)
+        public IActionResult DeleteClient(long id)
         {
-            var client = clients.Find(client => client.Cpf == cpf);
-            if(client != null)
+            if(!_clientRepository.DeleteClient(id))
             {
-                clients.Remove(client);
+                return NotFound();
             }
             return NoContent();
+        }
+
+        [HttpGet("/cliente/{cpf}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<Client> DescriptionProdutos(string cpf)
+        {
+            //if(!_clientRepository.DescriptionClient(cpf))
+            //{
+            //    return BadRequest();
+            //}
+            return Ok(_clientRepository.DescriptionClient(cpf));
         }
     }
 }

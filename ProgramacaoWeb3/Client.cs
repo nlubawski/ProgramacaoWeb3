@@ -4,6 +4,8 @@ namespace ProgramacaoWeb3
 {
     public class Client
     {
+        public long Id { get; set; }
+
         [Required(ErrorMessage = "Cpf é obrigatório")]
         [MaxLength(11, ErrorMessage = "Deve conter no máximo 11 digitos")]
         public string Cpf { get; set; }
@@ -13,6 +15,7 @@ namespace ProgramacaoWeb3
         [MinLength(3, ErrorMessage = "O nome deve ter mais que 2 caracteres")]
         public string Name { get; set; }
 
+        //TO FIX data validation
         [Required(ErrorMessage = "Data de nascimento é obrigatória")]
         public DateTime BirthDate { get; set; }
 
