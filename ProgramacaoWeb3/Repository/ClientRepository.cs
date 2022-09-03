@@ -15,10 +15,8 @@ namespace ProgramacaoWeb3.Repository
         public List<Client> GetCliente()
         {
             var query = "SELECT * FROM clientes";
-
-            var connectionString = _configuration.GetConnectionString("DefaultConnection");
-            
-            using var conn = new SqlConnection(connectionString);
+          
+            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
             return conn.Query<Client>(query).ToList();
 
@@ -27,15 +25,12 @@ namespace ProgramacaoWeb3.Repository
         public bool InsertClient(Client client)
         {
             var query = "INSERT INTO clientes VALUES (@cpf, @nome, @dataNascimento, @idade)";
-            var parameters = new DynamicParameters();
-            parameters.Add("cpf", client.Cpf);
-            parameters.Add("nome", client.Name);
-            parameters.Add("dataNascimento", client.BirthDate);
-            parameters.Add("idade", client.Age);
+
+            var parameters = new DynamicParameters(client);
 
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-            return conn.Execute(query, parameters) > 0;
+            return conn.Execute(query, parameters) == 1;
         }
 
         public bool UpdateClient(long id, Client client)
@@ -43,12 +38,8 @@ namespace ProgramacaoWeb3.Repository
             var query = "Update clientes SET cpf = @cpf, nome = @nome," +
                 " dataNascimento = @dataNascimento, idade = @idade WHERE id = @id";
 
-            var parameters = new DynamicParameters();
-            parameters.Add("cpf", client.Cpf);
-            parameters.Add("nome", client.Name);
-            parameters.Add("dataNascimento", client.BirthDate);
-            parameters.Add("idade", client.Age);
-            parameters.Add("id", client.Id);
+            var parameters = new DynamicParameters(client);
+            client.Id = id;
 
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 

@@ -13,14 +13,13 @@ namespace ProgramacaoWeb3
         [Required(ErrorMessage = "Nome é obrigatório")]
         [MaxLength(100, ErrorMessage = "O nome só pode ter 80 caracteres")]
         [MinLength(3, ErrorMessage = "O nome deve ter mais que 2 caracteres")]
-        public string Name { get; set; }
+        public string Nome { get; set; }
 
-        //TO FIX data validation
         [Required(ErrorMessage = "Data de nascimento é obrigatória")]
-        public DateTime BirthDate { get; set; }
+        public DateTime DataNascimento { get; set; }
 
-        public int Age => DateTime.Now.DayOfYear < BirthDate.DayOfYear ?
-            DateTime.Now.Year - BirthDate.Year - 1 : DateTime.Now.Year - BirthDate.Year;
+        public int Idade => DateTime.Now.DayOfYear < DataNascimento.DayOfYear ?
+            DateTime.Now.Year - DataNascimento.Year - 1 : DateTime.Now.Year - DataNascimento.Year;        
     }
 
 }

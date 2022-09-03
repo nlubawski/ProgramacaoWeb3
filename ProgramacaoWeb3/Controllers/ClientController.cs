@@ -22,7 +22,7 @@ namespace ProgramacaoWeb3.Controllers
 
         [HttpGet("/clientes")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<List<Client>> ReadClient([FromQuery] int index, int index2)
+        public ActionResult<List<Client>> GetClients()
         {
             return Ok(_clientRepository.GetCliente());
         }
