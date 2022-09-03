@@ -57,7 +57,7 @@ namespace ProgramacaoWeb3.Repository
             return conn.Execute(query, parameters) == 1;
         }
 
-        public List<Client> DescriptionClient(string cpf)
+        public Client DescriptionClient(string cpf)
         {
             var query = "SELECT * FROM clientes WHERE cpf=@cpf";
             var parameters = new DynamicParameters();
@@ -65,7 +65,7 @@ namespace ProgramacaoWeb3.Repository
 
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-            return conn.Query<Client>(query).ToList();
+            return conn.QueryFirstOrDefault<Client>(query, parameters);
         }
     }
 }

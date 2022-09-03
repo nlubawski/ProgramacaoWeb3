@@ -67,12 +67,8 @@ namespace ProgramacaoWeb3.Controllers
         [HttpGet("/cliente/{cpf}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<Client> DescriptionProdutos(string cpf)
+        public ActionResult<Client> DescriptionClient(string cpf)
         {
-            //if(!_clientRepository.DescriptionClient(cpf))
-            //{
-            //    return BadRequest();
-            //}
             return Ok(_clientRepository.DescriptionClient(cpf));
         }
     }
