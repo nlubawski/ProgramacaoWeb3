@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgramacaoWeb3", "ProgramacaoWeb3\ProgramacaoWeb3.csproj", "{54EE95F1-5C7D-48ED-9F64-DCECB2AEF02D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgramacaoWeb3", "ProgramacaoWeb3\ProgramacaoWeb3.csproj", "{54EE95F1-5C7D-48ED-9F64-DCECB2AEF02D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgramacaoWeb3.Infra.Data", "ProgramacaoWeb3.Infra.Data\ProgramacaoWeb3.Infra.Data.csproj", "{C0AF77D3-DB25-4510-87F2-7A9036CE6CB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgramacaoWeb3.Core", "ProgramacaoWeb3.Core\ProgramacaoWeb3.Core.csproj", "{6443C77E-14F5-4693-97AC-92A1098CF6FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{54EE95F1-5C7D-48ED-9F64-DCECB2AEF02D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54EE95F1-5C7D-48ED-9F64-DCECB2AEF02D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54EE95F1-5C7D-48ED-9F64-DCECB2AEF02D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0AF77D3-DB25-4510-87F2-7A9036CE6CB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0AF77D3-DB25-4510-87F2-7A9036CE6CB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0AF77D3-DB25-4510-87F2-7A9036CE6CB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0AF77D3-DB25-4510-87F2-7A9036CE6CB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6443C77E-14F5-4693-97AC-92A1098CF6FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6443C77E-14F5-4693-97AC-92A1098CF6FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6443C77E-14F5-4693-97AC-92A1098CF6FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6443C77E-14F5-4693-97AC-92A1098CF6FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

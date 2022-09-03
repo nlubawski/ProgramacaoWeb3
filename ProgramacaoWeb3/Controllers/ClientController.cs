@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using ProgramacaoWeb3.Repository;
+using ProgramacaoWeb3.Core.Interface;
 
 namespace ProgramacaoWeb3.Controllers
 {
@@ -9,67 +9,64 @@ namespace ProgramacaoWeb3.Controllers
     [Produces("application/json")]
     public class ClientController : ControllerBase
     {
-        public List<Client> ClientList { get; set; }
-        private readonly IConfiguration _configuration;
+              
+        readonly IClientService _clientService;
 
-        public ClientRepository _clientRepository;
-
-        public ClientController(IConfiguration configuration)
+        public ClientController(IClientService clientService)
         {
-            ClientList = new List<Client>();
-            _clientRepository = new ClientRepository(configuration);
+            _clientService = clientService;
         }
 
         [HttpGet("/clientes")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<List<Client>> GetClients()
         {
-            return Ok(_clientRepository.GetCliente());
+            return Ok(_clientService.GetClients());
         }
 
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<Client> Create(Client client)
-        {
-            if(!_clientRepository.InsertClient(client))
-            {
-                return BadRequest();
-            }
+        //[HttpPost]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //public ActionResult<Client> Create(Client client)
+        //{
+        //    if(!_clientRepository.InsertClient(client))
+        //    {
+        //        return BadRequest();
+        //    }
 
-            return CreatedAtAction(nameof(Create), client);
-        }
+        //    return CreatedAtAction(nameof(Create), client);
+        //}
 
-        [HttpPut]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult UpdateClient(long id, Client client)
-        {
-            var clients = ClientList;
-            if (clients == null)
-                return NotFound();
+        //[HttpPut]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //public IActionResult UpdateClient(long id, Client client)
+        //{
+        //    var clients = ClientList;
+        //    if (clients == null)
+        //        return NotFound();
 
-            _clientRepository.UpdateClient(id, client);
-           return NoContent();
-        }
+        //    _clientRepository.UpdateClient(id, client);
+        //   return NoContent();
+        //}
 
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [HttpDelete]
-        public IActionResult DeleteClient(long id)
-        {
-            if(!_clientRepository.DeleteClient(id))
-            {
-                return NotFound();
-            }
-            return NoContent();
-        }
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        //[HttpDelete]
+        //public IActionResult DeleteClient(long id)
+        //{
+        //    if(!_clientRepository.DeleteClient(id))
+        //    {
+        //        return NotFound();
+        //    }
+        //    return NoContent();
+        //}
 
-        [HttpGet("/cliente/{cpf}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<Client> DescriptionClient(string cpf)
-        {
-            return Ok(_clientRepository.DescriptionClient(cpf));
-        }
+        //[HttpGet("/cliente/{cpf}")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //public ActionResult<Client> DescriptionClient(string cpf)
+        //{
+        //    return Ok(_clientRepository.DescriptionClient(cpf));
+        //}
     }
 }

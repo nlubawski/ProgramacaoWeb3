@@ -1,9 +1,11 @@
 ﻿using Microsoft.Data.SqlClient;
 using Dapper;
+using ProgramacaoWeb3.Core.Interface;
+using Microsoft.Extensions.Configuration;
 
-namespace ProgramacaoWeb3.Repository
+namespace ProgramacaoWeb3.Infra.Data.Repository
 {
-    public class ClientRepository
+    public class ClientRepository : IClientRepository
     {
         private readonly IConfiguration _configuration;
 
