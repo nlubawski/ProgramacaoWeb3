@@ -1,5 +1,6 @@
 using ProgramacaoWeb3.Core.Interface;
 using ProgramacaoWeb3.Core.Service;
+using ProgramacaoWeb3.Filters;
 using ProgramacaoWeb3.Infra.Data.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
+
 
 builder.Services.AddControllers();
 

@@ -17,6 +17,6 @@ namespace ProgramacaoWeb3.Core.Interface
 
         bool DeleteClient(long id);
 
-        Client DescriptionClient(string cpf);
+        Client? DescriptionClient(string cpf);
     }
 }

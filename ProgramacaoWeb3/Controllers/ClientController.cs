@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ProgramacaoWeb3.Core.Interface;
+using ProgramacaoWeb3.Filters;
 
 namespace ProgramacaoWeb3.Controllers
 {
@@ -7,6 +8,8 @@ namespace ProgramacaoWeb3.Controllers
     [Route("[controller]")]
     [Consumes("application/json")]
     [Produces("application/json")]
+    [TypeFilter(typeof(LogResourceFilterTime))]
+    [TypeFilter(typeof(GeneralExceptionFilter))]
     public class ClientController : ControllerBase
     {
               
@@ -27,6 +30,8 @@ namespace ProgramacaoWeb3.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [TypeFilter(typeof(ActionFilterCpfIsValid))]
         public ActionResult<Client> Create(Client client)
         {
             if (!_clientService.InsertClient(client))
@@ -40,6 +45,8 @@ namespace ProgramacaoWeb3.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [TypeFilter(typeof(ActionFilterUpdate))]
         public IActionResult UpdateClient(long id, Client client)
         {
         
