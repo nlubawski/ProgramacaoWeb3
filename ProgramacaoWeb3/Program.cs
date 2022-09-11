@@ -16,6 +16,7 @@ builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 
 builder.Services.AddScoped<ActionFilterCpfIsValid>();
+builder.Services.AddScoped<ActionFilterUpdate>();
 
 
 builder.Services.AddControllers();

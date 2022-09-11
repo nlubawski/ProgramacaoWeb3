@@ -46,7 +46,7 @@ namespace ProgramacaoWeb3.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [TypeFilter(typeof(ActionFilterUpdate))]
+        [ServiceFilter(typeof(ActionFilterUpdate))]
         public IActionResult UpdateClient(long id, Client client)
         {
         
