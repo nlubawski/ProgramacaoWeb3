@@ -14,6 +14,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddScoped<ActionFilterCpfIsValid>();
 builder.Services.AddScoped<ActionFilterUpdate>();

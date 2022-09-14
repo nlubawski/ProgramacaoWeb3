@@ -19,7 +19,9 @@ namespace ProgramacaoWeb3
         public DateTime DataNascimento { get; set; }
 
         public int Idade => DateTime.Now.DayOfYear < DataNascimento.DayOfYear ?
-            DateTime.Now.Year - DataNascimento.Year - 1 : DateTime.Now.Year - DataNascimento.Year;        
+            DateTime.Now.Year - DataNascimento.Year - 1 : DateTime.Now.Year - DataNascimento.Year;
+
+        public string Permissao { get; set; } 
     }
 
 }
